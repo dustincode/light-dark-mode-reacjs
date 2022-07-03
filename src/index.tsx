@@ -1,14 +1,33 @@
+import {configureStore} from '@reduxjs/toolkit';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import './styles.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import ThemeProvider from "./ThemeProvider";
+import {Provider} from "react-redux";
+import themeReducer from './themeSlice';
+
+const store = configureStore({
+    reducer: {
+        theme: themeReducer,
+    },
+});
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <App />
+      <Provider store={store}>
+          <ThemeProvider>
+              <App />
+          </ThemeProvider>
+      </Provider>
   </React.StrictMode>
 );
 
